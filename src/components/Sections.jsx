@@ -69,13 +69,17 @@ export function Skills() {
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
             .then(data => {
-                setSkills(data);
+                setSkills(Array.isArray(data) ? data : []);
                 setLoading(false);
             })
             .catch(err => {
                 console.error('Error fetching skills:', err);
+                setSkills([]);
                 setLoading(false);
             });
     }, []);
@@ -118,13 +122,17 @@ export function Experience() {
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL || ''}/api/experiences`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
             .then(data => {
-                setExperiences(data);
+                setExperiences(Array.isArray(data) ? data : []);
                 setLoading(false);
             })
             .catch(err => {
                 console.error('Error fetching experiences:', err);
+                setExperiences([]);
                 setLoading(false);
             });
     }, []);
@@ -375,8 +383,16 @@ export function Projects() {
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
             .then(data => {
+                if (!Array.isArray(data)) {
+                    setProjects([]);
+                    setLoading(false);
+                    return;
+                }
                 const parsedData = data.map(p => ({
                     ...p,
                     tech: typeof p.tech_stack === 'string' ? JSON.parse(p.tech_stack) : p.tech_stack
@@ -386,6 +402,7 @@ export function Projects() {
             })
             .catch(err => {
                 console.error('Error fetching projects:', err);
+                setProjects([]);
                 setLoading(false);
             });
     }, []);
@@ -619,9 +636,12 @@ export function Contact() {
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL || ''}/api/cv`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
             .then(data => {
-                if (data && data.length > 0) {
+                if (Array.isArray(data) && data.length > 0) {
                     setCvData(data[0]);
                 }
             })
