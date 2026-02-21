@@ -15,9 +15,9 @@ const SECRET_KEY = process.env.SECRET_KEY || 'supersecretkey';
 // Protect HTTP headers
 app.use(helmet());
 
-// CORS Configuration (Allow frontend domain)
+// CORS Configuration (Allow all domains for public API)
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Adjust when deploying
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
