@@ -26,9 +26,7 @@ export function Login({ onClose }) {
                 throw new Error(data.error || 'Login failed');
             }
 
-            // alert('Login Successful! Token: ' + data.token); // Removed alert
             localStorage.setItem('token', data.token);
-            if (onClose) onClose();
             navigate('/admin');
 
         } catch (err) {
