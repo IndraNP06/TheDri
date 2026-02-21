@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "netlify-cli": "^23.15.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.0",
-    "react-simple-typewriter": "^5.0.1"
+    "react-simple-typewriter": "^5.0.1",
+    "serverless-http": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

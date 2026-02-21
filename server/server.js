@@ -306,8 +306,14 @@ app.delete('/api/cv/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// --- SERVER START ---
+// --- SERVER START & EXPORT ---
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Local development only: Listen on port
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+// Export for serverless (Netlify Functions)
+module.exports = app;
