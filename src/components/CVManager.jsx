@@ -54,7 +54,7 @@ export function CVManager() {
 
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('token');
-                    window.location.href = '/';
+                    window.location.href = '/login';
                     return;
                 }
 

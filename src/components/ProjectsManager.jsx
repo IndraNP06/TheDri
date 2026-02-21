@@ -65,7 +65,7 @@ export function ProjectsManager() {
                 const errMsg = errorData.error || 'Failed to save project';
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('token');
-                    window.location.href = '/';
+                    window.location.href = '/login';
                     return;
                 }
                 throw new Error(errMsg);
@@ -105,7 +105,7 @@ export function ProjectsManager() {
                 const errMsg = errorData.error || 'Failed to delete project';
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('token');
-                    window.location.href = '/';
+                    window.location.href = '/login';
                     return;
                 }
                 throw new Error(errMsg);

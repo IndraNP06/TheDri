@@ -55,7 +55,7 @@ export function SkillsManager() {
                 const errMsg = errorData.error || 'Failed to save skill';
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('token');
-                    window.location.href = '/';
+                    window.location.href = '/login';
                     return;
                 }
                 throw new Error(errMsg);
@@ -94,7 +94,7 @@ export function SkillsManager() {
                 const errMsg = errorData.error || 'Failed to delete skill';
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('token');
-                    window.location.href = '/';
+                    window.location.href = '/login';
                     return;
                 }
                 throw new Error(errMsg);

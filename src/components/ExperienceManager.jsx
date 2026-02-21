@@ -41,7 +41,7 @@ export function ExperienceManager() {
             } else {
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('token');
-                    window.location.href = '/';
+                    window.location.href = '/login';
                     return;
                 }
                 const errData = await res.json().catch(() => ({}));
@@ -67,7 +67,7 @@ export function ExperienceManager() {
             if (!res.ok) {
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('token');
-                    window.location.href = '/';
+                    window.location.href = '/login';
                     return;
                 }
                 const errData = await res.json().catch(() => ({}));
