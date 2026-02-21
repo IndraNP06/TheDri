@@ -11,10 +11,15 @@ export function TestConnection() {
         fetch(`${apiUrl}/api/test`)
             .then(res => res.json())
             .then(data => {
-                const message = data.message || 'Connected (No message)';
-                const calcResult = data.result ? ` (Result: ${data.result})` : '';
-                setStatus(message + calcResult);
-                setResult(data);
+                if (data.error) {
+                    setStatus(`Database Error: ${data.error}`);
+                    setResult(null);
+                } else {
+                    const message = data.message || 'Connected';
+                    const calcResult = data.result ? ` (Result: ${data.result})` : '';
+                    setStatus(message + calcResult);
+                    setResult(data);
+                }
             })
             .catch(err => {
                 console.error(err);
