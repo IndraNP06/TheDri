@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { Skills, Projects, Contact, About, Experience } from '../components/Sections';
-import { TestConnection } from '../components/TestConnection';
 
 export function Home() {
     const navigate = useNavigate();
@@ -38,7 +37,6 @@ export function Home() {
             <Skills />
             <Experience />
             <Projects />
-            <TestConnection />
             <Contact />
         </div>
     );
