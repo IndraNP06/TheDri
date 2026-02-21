@@ -14,7 +14,7 @@ export function ProjectsManager() {
 
     const fetchProjects = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/projects');
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects`);
             const data = await res.json();
             // Ensure tech_stack is parsed if it comes as string, or handle if it's already object
             const parsedData = data.map(p => ({
@@ -36,8 +36,8 @@ export function ProjectsManager() {
         setLoading(true);
 
         const url = editingId
-            ? `http://localhost:5000/api/projects/${editingId}`
-            : 'http://localhost:5000/api/projects';
+            ? `${import.meta.env.VITE_API_URL || ''}/api/projects/${editingId}`
+            : `${import.meta.env.VITE_API_URL || ''}/api/projects`;
 
         const method = editingId ? 'PUT' : 'POST';
 
@@ -93,7 +93,7 @@ export function ProjectsManager() {
         if (!confirm('Are you sure you want to delete this project?')) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/projects/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`

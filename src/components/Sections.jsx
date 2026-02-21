@@ -68,7 +68,7 @@ export function Skills() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/skills')
+        fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills`)
             .then(res => res.json())
             .then(data => {
                 setSkills(data);
@@ -117,7 +117,7 @@ export function Experience() {
     const [selectedExperience, setSelectedExperience] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/experiences')
+        fetch(`${import.meta.env.VITE_API_URL || ''}/api/experiences`)
             .then(res => res.json())
             .then(data => {
                 setExperiences(data);
@@ -374,7 +374,7 @@ export function Projects() {
     const [selectedProject, setSelectedProject] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/projects')
+        fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects`)
             .then(res => res.json())
             .then(data => {
                 const parsedData = data.map(p => ({
@@ -618,7 +618,7 @@ export function Contact() {
     const email = "indranugrahaputra09@gmail.com";
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/cv')
+        fetch(`${import.meta.env.VITE_API_URL || ''}/api/cv`)
             .then(res => res.json())
             .then(data => {
                 if (data && data.length > 0) {

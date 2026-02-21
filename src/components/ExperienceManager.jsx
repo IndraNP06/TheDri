@@ -11,7 +11,7 @@ export function ExperienceManager() {
 
     const fetchExperiences = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/experiences');
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/experiences`);
             const data = await res.json();
             setExperiences(data);
         } catch (err) {
@@ -22,7 +22,7 @@ export function ExperienceManager() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const method = editingId ? 'PUT' : 'POST';
-        const url = editingId ? `http://localhost:5000/api/experiences/${editingId}` : 'http://localhost:5000/api/experiences';
+        const url = editingId ? `${import.meta.env.VITE_API_URL || ''}/api/experiences/${editingId}` : `${import.meta.env.VITE_API_URL || ''}/api/experiences`;
 
         try {
             const res = await fetch(url, {
@@ -60,7 +60,7 @@ export function ExperienceManager() {
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure?')) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/experiences/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/experiences/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });

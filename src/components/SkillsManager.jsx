@@ -11,7 +11,7 @@ export function SkillsManager() {
 
     const fetchSkills = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/skills');
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills`);
             const data = await res.json();
             setSkills(data);
         } catch (err) {
@@ -28,8 +28,8 @@ export function SkillsManager() {
         setLoading(true);
 
         const url = editingId
-            ? `http://localhost:5000/api/skills/${editingId}`
-            : 'http://localhost:5000/api/skills';
+            ? `${import.meta.env.VITE_API_URL || ''}/api/skills/${editingId}`
+            : `${import.meta.env.VITE_API_URL || ''}/api/skills`;
 
         const method = editingId ? 'PUT' : 'POST';
 
@@ -82,7 +82,7 @@ export function SkillsManager() {
         if (!confirm('Are you sure you want to delete this skill?')) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/skills/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`

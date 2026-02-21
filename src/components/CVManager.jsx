@@ -8,7 +8,7 @@ export function CVManager() {
 
     const fetchCV = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/cv');
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cv`);
             const data = await res.json();
             if (data && data.length > 0) {
                 const cv = data[0];
@@ -30,8 +30,8 @@ export function CVManager() {
         setLoading(true);
 
         const url = cvId
-            ? `http://localhost:5000/api/cv/${cvId}`
-            : 'http://localhost:5000/api/cv';
+            ? `${import.meta.env.VITE_API_URL || ''}/api/cv/${cvId}`
+            : `${import.meta.env.VITE_API_URL || ''}/api/cv`;
 
         const method = cvId ? 'PUT' : 'POST';
 
