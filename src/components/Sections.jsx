@@ -2,77 +2,13 @@ import { useState, useEffect } from 'react';
 import photoProfile from '../assets/photoprofile.png';
 import { RevealOnScroll } from './RevealOnScroll';
 
-export function About() {
-    return (
-        <section id="about" className="section-padding">
-            <div className="container">
-                <RevealOnScroll>
-                    <div className="glass-panel" style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '3rem',
-                        padding: '3rem',
-                        flexWrap: 'wrap'
-                    }}>
-                        {/* ... content ... */}
-                        <div style={{ flex: '1 1 300px' }}>
-                            <div style={{
-                                width: '100%',
-                                maxWidth: '350px',
-                                aspectRatio: '1/1',
-                                borderRadius: '20px',
-                                overflow: 'hidden',
-                                margin: '0 auto',
-                                background: '#333',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
-                            }}>
-                                <img src={photoProfile} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            </div>
-                        </div>
-                        <div style={{ flex: '1 1 400px' }}>
-                            <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                About Me
-                                <div style={{ height: '2px', background: 'var(--primary-color)', flexGrow: 1, maxWidth: '100px', opacity: 0.5 }}></div>
-                            </h2>
-                            <p style={{ fontSize: '1.1rem', color: '#ccc', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                                I'm a passionate developer with a knack for building immersive web experiences. With a background in both design and engineering, I bridge the gap between aesthetics and functionality.
-                            </p>
-                            <p style={{ fontSize: '1.1rem', color: '#ccc', lineHeight: '1.8', marginBottom: '2rem' }}>
-                                My journey in tech is driven by curiosity and a commitment to excellence. Whether it's a complex dApp or a stunning portfolio, I bring dedication and craft to every project.
-                            </p>
-                            <div style={{ display: 'flex', gap: '2rem' }}>
-                                <div>
-                                    <h3 style={{ fontSize: '2rem', color: 'var(--primary-color)' }}>3+</h3>
-                                    <p style={{ fontSize: '0.9rem', color: '#888' }}>Years Exp.</p>
-                                </div>
-                                <div>
-                                    <h3 style={{ fontSize: '2rem', color: 'var(--primary-color)' }}>20+</h3>
-                                    <p style={{ fontSize: '0.9rem', color: '#888' }}>Projects</p>
-                                </div>
-                                <div>
-                                    <h3 style={{ fontSize: '2rem', color: 'var(--primary-color)' }}>15+</h3>
-                                    <p style={{ fontSize: '0.9rem', color: '#888' }}>Clients</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </RevealOnScroll>
-            </div>
-        </section>
-    );
-}
-
-export function Skills() {
+export function AboutAndSkills() {
     const [skills, setSkills] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills`)
-            .then(res => {
-                if (!res.ok) throw new Error('Network response was not ok');
-                return res.json();
-            })
+            .then(res => res.ok ? res.json() : [])
             .then(data => {
                 setSkills(Array.isArray(data) ? data : []);
                 setLoading(false);
@@ -85,540 +21,410 @@ export function Skills() {
     }, []);
 
     return (
-        <section id="skills" className="section-padding" style={{ background: 'var(--secondary-color)' }}>
+        <section id="about" className="section-padding" style={{ paddingTop: '2rem' }}>
             <div className="container">
-                <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', textAlign: 'center' }}>My Skills</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '1rem' }}>
-                    {loading ? (
-                        <p style={{ textAlign: 'center', gridColumn: '1/-1' }}>Loading skills...</p>
-                    ) : (
-                        skills.map((skill) => (
-                            <div key={skill.id || skill.title} className="glass-panel skill-card">
-                                {skill.image_url ? (
-                                    <img
-                                        src={skill.image_url}
-                                        alt={skill.title}
-                                    />
-                                ) : (
-                                    <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <span style={{ fontSize: '1.2rem', color: '#666' }}>{skill.title.charAt(0)}</span>
-                                    </div>
-                                )}
-                                <h3>{skill.title}</h3>
+                <RevealOnScroll>
+                    <div className="bento-grid" style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(12, 1fr)',
+                        gap: '2rem',
+                        gridAutoRows: 'minmax(150px, auto)'
+                    }}>
+                        {/* Box 1: Intro Text (Spans 8 cols) */}
+                        <div className="glass-panel" style={{
+                            gridColumn: 'span 8',
+                            padding: '3rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            background: 'rgba(255,255,255,0.02)'
+                        }}>
+                            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1, textTransform: 'uppercase', marginBottom: '1.5rem', color: '#fff' }}>
+                                The <span style={{ color: 'var(--primary-color)' }}>Mind</span><br /> Behind The Code
+                            </h2>
+                            <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.6', maxWidth: '600px' }}>
+                                A passionate developer bridging the gap between elegant aesthetics and highly-optimized functionality. Building immersive web experiences with a focus on modern minimalist design.
+                            </p>
+                        </div>
+
+                        {/* Box 2: Profile Image (Spans 4 cols) */}
+                        <div className="glass-panel" style={{
+                            gridColumn: 'span 4',
+                            overflow: 'hidden',
+                            padding: 0,
+                            position: 'relative',
+                            minHeight: '300px'
+                        }}
+                            onMouseOver={(e) => e.currentTarget.querySelector('img').style.filter = 'grayscale(0%) scale(1.05)'}
+                            onMouseOut={(e) => {
+                                const img = e.currentTarget.querySelector('img');
+                                if (img) {
+                                    img.style.filter = 'grayscale(100%)';
+                                    img.style.transform = 'scale(1)';
+                                }
+                            }}>
+                            <img src={photoProfile} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)', transition: 'all 0.5s var(--transition-smooth)' }} />
+                            <div style={{ position: 'absolute', bottom: '1rem', right: '1rem', background: 'var(--primary-color)', color: '#fff', padding: '0.5rem 1rem', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
+                                Indra Nugraha Putra
                             </div>
-                        ))
-                    )}
-                </div>
+                        </div>
+
+                        {/* Box 3: Stats (Spans 4 cols) */}
+                        <div className="glass-panel" style={{
+                            gridColumn: 'span 4',
+                            padding: '2rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            gap: '1.5rem',
+                            background: 'var(--primary-color)',
+                            color: '#fff',
+                            border: 'none'
+                        }}>
+                            <div>
+                                <h3 style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, margin: 0 }}>3+</h3>
+                                <p style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, opacity: 0.9 }}>Years Exp.</p>
+                            </div>
+                            <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,0.3)' }}></div>
+                            <div>
+                                <h3 style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, margin: 0 }}>20+</h3>
+                                <p style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, opacity: 0.9 }}>Projects</p>
+                            </div>
+                        </div>
+
+                        {/* Box 4: Skills Marquee/Grid (Spans 8 cols) */}
+                        <div className="glass-panel" style={{
+                            gridColumn: 'span 8',
+                            padding: '3rem',
+                            background: '#0a0a0a',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            overflow: 'hidden'
+                        }}>
+                            <h3 style={{ fontSize: '1.2rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '2rem' }}>Core Arsenal</h3>
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+                                {loading ? (
+                                    <p style={{ color: 'var(--text-muted)' }}>Loading skills...</p>
+                                ) : (
+                                    skills.map((skill) => (
+                                        <div key={skill.id || skill.title} style={{
+                                            padding: '0.8rem 1.2rem',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.8rem',
+                                            transition: 'all 0.3s',
+                                            background: 'rgba(255,255,255,0.03)'
+                                        }}
+                                            onMouseOver={(e) => { e.currentTarget.style.borderColor = 'var(--primary-color)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
+                                            onMouseOut={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'inherit'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}>
+                                            {skill.image_url && <img src={skill.image_url} alt={skill.title} style={{ width: '20px', height: '20px', objectFit: 'contain' }} />}
+                                            <span style={{ fontSize: '0.95rem', fontWeight: 500 }}>{skill.title}</span>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </RevealOnScroll>
             </div>
         </section>
-
     );
 }
 
-export function Experience() {
+export function PortfolioTabs() {
+    const [activeTab, setActiveTab] = useState('experience');
+
+    // Experience State
     const [experiences, setExperiences] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [expLoading, setExpLoading] = useState(true);
     const [selectedExperience, setSelectedExperience] = useState(null);
 
+    // Projects State
+    const [projects, setProjects] = useState([]);
+    const [projLoading, setProjLoading] = useState(true);
+    const [selectedProject, setSelectedProject] = useState(null);
+
     useEffect(() => {
+        // Fetch Experiences
         fetch(`${import.meta.env.VITE_API_URL || ''}/api/experiences`)
-            .then(res => {
-                if (!res.ok) throw new Error('Network response was not ok');
-                return res.json();
-            })
+            .then(res => res.ok ? res.json() : [])
             .then(data => {
                 setExperiences(Array.isArray(data) ? data : []);
-                setLoading(false);
+                setExpLoading(false);
             })
             .catch(err => {
                 console.error('Error fetching experiences:', err);
-                setExperiences([]);
-                setLoading(false);
+                setExpLoading(false);
+            });
+
+        // Fetch Projects
+        fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects`)
+            .then(res => res.ok ? res.json() : [])
+            .then(data => {
+                const parsedData = Array.isArray(data) ? data.map(p => ({
+                    ...p,
+                    tech: typeof p.tech_stack === 'string' ? JSON.parse(p.tech_stack) : p.tech_stack
+                })) : [];
+                setProjects(parsedData);
+                setProjLoading(false);
+            })
+            .catch(err => {
+                console.error('Error fetching projects:', err);
+                setProjLoading(false);
             });
     }, []);
 
     return (
-        <section id="experience" className="section-padding">
-            <div className="container">
+        <section id="portfolio" className="section-padding">
+            <div className="container" style={{ maxWidth: '1000px' }}>
                 <RevealOnScroll>
-                    <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', textAlign: 'center' }}>My Experience</h2>
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                        gap: '2rem'
-                    }}>
-                        {experiences.map((exp, index) => (
-                            <div key={index} className="glass-panel" style={{
-                                padding: '1.5rem',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '1rem',
-                                position: 'relative',
-                                transition: 'all 0.3s ease',
-                                height: '100%',
-                                border: '1px solid rgba(255, 255, 255, 0.05)',
-                                background: 'rgba(255, 255, 255, 0.02)'
-                            }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
-                                    {exp.image_url ? (
-                                        <div style={{
-                                            width: '50px',
-                                            height: '50px',
-                                            borderRadius: '12px',
-                                            overflow: 'hidden',
-                                            flexShrink: 0,
-                                            background: '#333'
-                                        }}>
-                                            <img src={exp.image_url} alt={exp.company} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    {/* Tabs Header */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem', marginBottom: '3rem', flexWrap: 'wrap', gap: '2rem' }}>
+                        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 800, textTransform: 'uppercase', margin: 0, lineHeight: 1 }}>
+                            Professional <br /><span style={{ color: 'var(--primary-color)' }}>Showcase</span>
+                        </h2>
+
+                        <div style={{ display: 'flex', gap: '2rem' }}>
+                            <button
+                                onClick={() => setActiveTab('experience')}
+                                style={{
+                                    padding: '0 0 0.5rem 0',
+                                    border: 'none',
+                                    borderBottom: activeTab === 'experience' ? '2px solid var(--primary-color)' : '2px solid transparent',
+                                    color: activeTab === 'experience' ? '#fff' : 'var(--text-muted)',
+                                    background: 'transparent',
+                                    fontSize: '1.2rem',
+                                    letterSpacing: '0.1em',
+                                    transition: 'all 0.3s'
+                                }}>
+                                Experience
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('projects')}
+                                style={{
+                                    padding: '0 0 0.5rem 0',
+                                    border: 'none',
+                                    borderBottom: activeTab === 'projects' ? '2px solid var(--primary-color)' : '2px solid transparent',
+                                    color: activeTab === 'projects' ? '#fff' : 'var(--text-muted)',
+                                    background: 'transparent',
+                                    fontSize: '1.2rem',
+                                    letterSpacing: '0.1em',
+                                    transition: 'all 0.3s'
+                                }}>
+                                Projects
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Tab Content: Experience */}
+                    <div style={{ display: activeTab === 'experience' ? 'block' : 'none', animation: 'fadeIn 0.4s ease-out' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                            {expLoading ? (
+                                <p style={{ color: 'var(--text-muted)' }}>Loading experiences...</p>
+                            ) : (
+                                experiences.map((exp, index) => (
+                                    <div key={index} className="glass-panel" style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        padding: '2.5rem',
+                                        marginBottom: '1.5rem',
+                                        transition: 'all 0.4s var(--transition-smooth)',
+                                        border: '1px solid var(--border-color)',
+                                        background: 'rgba(255,255,255,0.01)',
+                                        position: 'relative'
+                                    }}
+                                        onMouseOver={(e) => {
+                                            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)';
+                                            e.currentTarget.style.borderColor = 'var(--primary-color)';
+                                            e.currentTarget.style.transform = 'translateY(-5px)';
+                                        }}
+                                        onMouseOut={(e) => {
+                                            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.01)';
+                                            e.currentTarget.style.borderColor = 'var(--border-color)';
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                                                {/* Logo/Icon */}
+                                                <div style={{ width: '60px', height: '60px', flexShrink: 0, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-color)' }}>
+                                                    {exp.image_url ? (
+                                                        <img src={exp.image_url} alt={exp.company} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '5px' }} />
+                                                    ) : (
+                                                        <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-muted)' }}>{exp.company.charAt(0)}</span>
+                                                    )}
+                                                </div>
+
+                                                {/* Headers */}
+                                                <div>
+                                                    <h3 style={{ fontSize: '1.6rem', color: '#fff', margin: '0 0 0.3rem 0', fontWeight: 700, lineHeight: 1.2 }}>{exp.role}</h3>
+                                                    <p style={{ fontSize: '1.1rem', color: 'var(--primary-color)', margin: 0, fontWeight: 500, letterSpacing: '0.05em' }}>{exp.company}</p>
+                                                </div>
+                                            </div>
+
+                                            {/* Period/Date */}
+                                            <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.4rem 1rem', border: '1px solid var(--border-color)', background: 'rgba(0,0,0,0.3)' }}>
+                                                {exp.period}
+                                            </div>
                                         </div>
-                                    ) : (
-                                        <div style={{
-                                            width: '50px',
-                                            height: '50px',
-                                            borderRadius: '12px',
-                                            background: 'rgba(255,255,255,0.1)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            flexShrink: 0
+
+                                        <p style={{
+                                            color: '#bbb', fontSize: '1rem', lineHeight: '1.7', margin: '0 0 2rem 0',
+                                            display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                                         }}>
-                                            <span style={{ fontSize: '1.2rem', color: '#666' }}>{exp.company.charAt(0)}</span>
+                                            {exp.description}
+                                        </p>
+
+                                        <div style={{ marginTop: 'auto' }}>
+                                            <button onClick={() => setSelectedExperience(exp)} style={{
+                                                padding: '0.6rem 1.5rem', border: '1px solid var(--primary-color)', color: 'var(--primary-color)',
+                                                fontSize: '0.85rem', letterSpacing: '0.1em', background: 'transparent', textTransform: 'uppercase', fontWeight: 600,
+                                                cursor: 'pointer', transition: 'all 0.3s var(--transition-smooth)'
+                                            }}
+                                                onMouseOver={(e) => { e.currentTarget.style.background = 'var(--primary-color)'; e.currentTarget.style.color = '#000'; }}
+                                                onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--primary-color)'; }}
+                                            >
+                                                View Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Tab Content: Projects */}
+                    <div style={{ display: activeTab === 'projects' ? 'block' : 'none', animation: 'fadeIn 0.4s ease-out' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem', paddingTop: '1rem' }}>
+                            {projLoading ? (
+                                <p style={{ color: 'var(--text-muted)' }}>Loading projects...</p>
+                            ) : (
+                                projects.map((project, index) => (
+                                    <div key={project.id} className="glass-panel tab-grid-proj" style={{
+                                        position: 'relative', overflow: 'hidden', padding: 0, border: '1px solid var(--border-color)',
+                                        display: 'grid', gridTemplateColumns: 'minmax(250px, 1fr) 2fr'
+                                    }}>
+                                        <div style={{ background: '#111', minHeight: '250px', position: 'relative', overflow: 'hidden' }}>
+                                            {project.image_url ? (
+                                                <img src={project.image_url} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)', transition: 'all 0.6s' }}
+                                                    onMouseOver={e => { e.currentTarget.style.filter = 'grayscale(0%)'; e.currentTarget.style.transform = 'scale(1.05)' }}
+                                                    onMouseOut={e => { e.currentTarget.style.filter = 'grayscale(100%)'; e.currentTarget.style.transform = 'scale(1)' }}
+                                                />
+                                            ) : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(45deg, #111, #222)' }}></div>}
+                                        </div>
+                                        <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                                                0{index + 1}
+                                            </div>
+                                            <h3 style={{ fontSize: '2rem', margin: '0 0 1rem 0', fontWeight: 800, color: '#fff', textTransform: 'uppercase' }}>{project.title}</h3>
+                                            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontSize: '1rem', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                                {project.description}
+                                            </p>
+
+                                            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+                                                {Array.isArray(project.tech) && project.tech.map((t, i) => (
+                                                    <span key={i} style={{ fontSize: '0.75rem', padding: '0.3rem 0.8rem', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{t}</span>
+                                                ))}
+                                            </div>
+
+                                            <button onClick={() => setSelectedProject(project)} style={{ alignSelf: 'flex-start', padding: '0.8rem 1.5rem', fontSize: '0.8rem' }}>
+                                                Explore Scope
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </RevealOnScroll>
+            </div>
+
+            {/* Experience Modal */}
+            {selectedExperience && (
+                <div style={{
+                    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '1.5rem', animation: 'fadeIn 0.3s ease-out'
+                }} onClick={() => setSelectedExperience(null)}>
+                    <div className="glass-panel" style={{ position: 'relative', maxWidth: '800px', width: '100%', maxHeight: '90vh', padding: '0', display: 'flex', flexDirection: 'column', overflowY: 'auto', background: '#050505', borderRadius: '12px', border: '1px solid #333' }} onClick={e => e.stopPropagation()}>
+
+                        <button onClick={() => setSelectedExperience(null)} style={{
+                            position: 'absolute', top: '1.5rem', right: '1.5rem', width: '40px', height: '40px', borderRadius: '50%',
+                            background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-color)', color: '#fff', fontSize: '1.2rem',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 10, transition: 'all 0.3s'
+                        }} onMouseOver={e => { e.currentTarget.style.background = 'var(--primary-color)'; e.currentTarget.style.color = '#000'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff'; }}>✕</button>
+
+                        <div style={{ padding: 'clamp(2rem, 5vw, 4rem)', paddingBottom: '3rem' }}>
+                            <div style={{ marginBottom: '2.5rem', borderBottom: '1px solid #222', paddingBottom: '2.5rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                                    {selectedExperience.image_url && (
+                                        <div style={{ width: '50px', height: '50px', background: '#fff', borderRadius: '8px', padding: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <img src={selectedExperience.image_url} alt={selectedExperience.company} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                         </div>
                                     )}
                                     <div>
-                                        <h3 style={{ fontSize: '1.1rem', margin: 0, lineHeight: 1.2 }}>{exp.role}</h3>
-                                        <p style={{ fontSize: '0.9rem', color: '#aaa', margin: 0 }}>{exp.company}</p>
+                                        <div style={{ fontSize: '0.9rem', color: 'var(--primary-color)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600, marginBottom: '0.3rem' }}>
+                                            {selectedExperience.period}
+                                        </div>
+                                        <div style={{ fontSize: '1.2rem', color: '#aaa', fontWeight: 500 }}>
+                                            {selectedExperience.company}
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div style={{
-                                    fontSize: '0.85rem',
-                                    color: '#666',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.5rem'
-                                }}>
-                                    <span style={{
-                                        display: 'inline-block',
-                                        width: '6px',
-                                        height: '6px',
-                                        borderRadius: '50%',
-                                        background: 'var(--primary-color)'
-                                    }}></span>
-                                    {exp.period}
-                                </div>
-
-                                <p style={{
-                                    color: '#ccc',
-                                    fontSize: '0.95rem',
-                                    lineHeight: '1.6',
-                                    display: '-webkit-box',
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: 'vertical',
-                                    overflow: 'hidden',
-                                    margin: 0,
-                                    opacity: 0.8
-                                }}>
-                                    {exp.description}
-                                </p>
-
-                                <button
-                                    onClick={() => setSelectedExperience(exp)}
-                                    style={{
-                                        marginTop: 'auto',
-                                        background: 'transparent',
-                                        border: '1px solid rgba(255,255,255,0.1)',
-                                        color: 'var(--primary-color)',
-                                        padding: '0.6rem 1rem',
-                                        borderRadius: '8px',
-                                        cursor: 'pointer',
-                                        fontSize: '0.9rem',
-                                        transition: 'all 0.2s',
-                                        alignSelf: 'flex-start'
-                                    }}
-                                    className="hover-btn"
-                                >
-                                    View More
-                                </button>
+                                <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, margin: 0, lineHeight: 1.2, color: '#fff' }}>{selectedExperience.role}</h2>
                             </div>
 
-                        ))}
-                    </div>
-                </RevealOnScroll>
-            </div >
-
-            {/* Experience Details Modal */}
-            {selectedExperience && (
-                <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'rgba(0,0,0,0.6)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 2000,
-                    padding: '1.5rem',
-                    animation: 'fadeIn 0.3s ease-out'
-                }} onClick={() => setSelectedExperience(null)}>
-                    <div
-                        className="glass-panel"
-                        style={{
-                            maxWidth: '650px',
-                            width: '100%',
-                            maxHeight: '85vh',
-                            position: 'relative',
-                            padding: '0',
-                            border: '1px solid rgba(255,255,255,0.15)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            overflow: 'hidden',
-                            borderRadius: '24px',
-                            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
-                            transform: 'translateY(0)',
-                            animation: 'slideUpFade 0.4s ease-out'
-                        }}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        {/* Header Area */}
-                        <div style={{
-                            padding: '1.5rem 2rem',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'flex-start',
-                            background: 'rgba(255,255,255,0.03)',
-                            borderBottom: '1px solid rgba(255,255,255,0.08)'
-                        }}>
-                            <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
-                                {selectedExperience.image_url ? (
-                                    <div style={{
-                                        width: '60px',
-                                        height: '60px',
-                                        borderRadius: '14px',
-                                        overflow: 'hidden',
-                                        flexShrink: 0,
-                                        background: '#333',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                                        border: '1px solid rgba(255,255,255,0.1)'
-                                    }}>
-                                        <img src={selectedExperience.image_url} alt={selectedExperience.company} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    </div>
-                                ) : (
-                                    <div style={{
-                                        width: '60px',
-                                        height: '60px',
-                                        borderRadius: '14px',
-                                        background: 'rgba(var(--primary-color-rgb), 0.2)',
-                                        color: 'var(--primary-color)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        flexShrink: 0,
-                                        border: '1px solid rgba(var(--primary-color-rgb), 0.3)'
-                                    }}>
-                                        <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{selectedExperience.company.charAt(0)}</span>
-                                    </div>
-                                )}
-                                <div>
-                                    <h3 style={{ fontSize: '1.4rem', margin: '0 0 0.2rem 0', fontWeight: '600', color: '#fff' }}>{selectedExperience.role}</h3>
-                                    <p style={{ fontSize: '1.05rem', color: 'var(--primary-color)', margin: '0 0 0.2rem 0', fontWeight: '500' }}>{selectedExperience.company}</p>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#888' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                        {selectedExperience.period}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button
-                                onClick={() => setSelectedExperience(null)}
-                                style={{
-                                    background: 'transparent',
-                                    color: '#888',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: '36px',
-                                    height: '36px',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '1.2rem',
-                                    transition: 'all 0.2s',
-                                    marginTop: '-0.5rem',
-                                    marginRight: '-0.5rem'
-                                }}
-                                onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'; e.currentTarget.style.color = '#ef4444'; }}
-                                onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#888'; }}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </button>
-                        </div>
-
-                        {/* Content Area */}
-                        <div style={{ padding: '2rem', overflowY: 'auto' }}>
-                            <h4 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: '#aaa', fontWeight: '500' }}>Role Description</h4>
-                            <div style={{ color: '#ddd', lineHeight: '1.8', fontSize: '1.05rem', background: 'rgba(0,0,0,0.2)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                {selectedExperience.description.split('\n').map((paragraph, idx) => (
-                                    <p key={idx} style={{ margin: paragraph.trim() ? '0 0 1rem 0' : '0' }}>
-                                        {paragraph}
-                                    </p>
-                                ))}
+                            <div style={{ color: '#ccc', lineHeight: '1.8', fontSize: '1.1rem' }}>
+                                {selectedExperience.description.split('\n').map((paragraph, idx) => <p key={idx} style={{ marginBottom: paragraph.trim() ? '1.5rem' : '0' }}>{paragraph}</p>)}
                             </div>
                         </div>
                     </div>
                 </div>
             )}
-        </section >
-    );
-}
 
-export function Projects() {
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedProject, setSelectedProject] = useState(null);
-
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects`)
-            .then(res => {
-                if (!res.ok) throw new Error('Network response was not ok');
-                return res.json();
-            })
-            .then(data => {
-                if (!Array.isArray(data)) {
-                    setProjects([]);
-                    setLoading(false);
-                    return;
-                }
-                const parsedData = data.map(p => ({
-                    ...p,
-                    tech: typeof p.tech_stack === 'string' ? JSON.parse(p.tech_stack) : p.tech_stack
-                }));
-                setProjects(parsedData);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error('Error fetching projects:', err);
-                setProjects([]);
-                setLoading(false);
-            });
-    }, []);
-
-    return (
-        <section id="projects" className="section-padding">
-            <div className="container">
-                <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', textAlign: 'center' }}>Project</h2>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                    gap: '2rem'
-                }}>
-                    {loading ? (
-                        <p style={{ textAlign: 'center', gridColumn: '1/-1' }}>Loading projects...</p>
-                    ) : (
-                        projects.map((project) => (
-                            <div key={project.id} className="glass-panel" style={{
-                                overflow: 'hidden',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: '100%'
-                            }}>
-                                <div style={{ height: '200px', background: '#252525', overflow: 'hidden', flexShrink: 0 }}>
-                                    {project.image_url ? (
-                                        <img src={project.image_url} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    ) : (
-                                        <div style={{ width: '100%', height: '100%', background: '#333' }}></div>
-                                    )}
-                                </div>
-                                <div style={{
-                                    padding: '1.5rem',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flexGrow: 1
-                                }}>
-                                    <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{project.title}</h3>
-                                    <p style={{
-                                        color: '#aaa',
-                                        marginBottom: '1rem',
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 3,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden',
-                                        flexGrow: 1
-                                    }}>
-                                        {project.description}
-                                    </p>
-                                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-                                        {Array.isArray(project.tech) && project.tech.map((t, i) => (
-                                            <span key={i} style={{
-                                                fontSize: '0.8rem',
-                                                padding: '0.2rem 0.8rem',
-                                                background: 'rgba(255,255,255,0.1)',
-                                                borderRadius: '100px'
-                                            }}>{t}</span>
-                                        ))}
-                                    </div>
-                                    <button
-                                        onClick={() => setSelectedProject(project)}
-                                        style={{
-                                            display: 'inline-block',
-                                            color: 'var(--primary-color)',
-                                            background: 'none',
-                                            border: 'none',
-                                            padding: 0,
-                                            fontSize: '1rem',
-                                            cursor: 'pointer',
-                                            textDecoration: 'underline',
-                                            alignSelf: 'flex-start',
-                                            marginTop: 'auto'
-                                        }}
-                                    >
-                                        View Details &rarr;
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-            </div>
-
-            {/* Project Details Modal */}
+            {/* Project Modal */}
             {selectedProject && (
                 <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'rgba(0,0,0,0.6)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 2000,
-                    padding: '1.5rem',
-                    animation: 'fadeIn 0.3s ease-out'
+                    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '1.5rem', animation: 'fadeIn 0.3s ease-out'
                 }} onClick={() => setSelectedProject(null)}>
-                    <div
-                        className="glass-panel"
-                        style={{
-                            maxWidth: '850px',
-                            width: '100%',
-                            maxHeight: '90vh',
-                            position: 'relative',
-                            padding: '0',
-                            border: '1px solid rgba(255,255,255,0.15)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            overflow: 'hidden',
-                            borderRadius: '24px',
-                            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
-                            transform: 'translateY(0)',
-                            animation: 'slideUpFade 0.4s ease-out'
-                        }}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <div style={{ height: '350px', background: '#1a1a1a', position: 'relative' }}>
-                            <div style={{
-                                position: 'absolute',
-                                top: 0, left: 0, right: 0, height: '100px',
-                                background: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%)',
-                                zIndex: 5,
-                                pointerEvents: 'none'
-                            }}></div>
+                    <div className="glass-panel" style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: '90vh', display: 'flex', flexDirection: 'column', background: '#050505', overflowY: 'auto', borderRadius: '12px', border: '1px solid #333', padding: 0 }} onClick={e => e.stopPropagation()}>
 
+                        <button onClick={() => setSelectedProject(null)} style={{
+                            position: 'absolute', top: '1.5rem', right: '1.5rem', width: '40px', height: '40px', borderRadius: '50%',
+                            background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', fontSize: '1.2rem',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 10, transition: 'all 0.3s'
+                        }} onMouseOver={e => { e.currentTarget.style.background = 'var(--primary-color)'; e.currentTarget.style.color = '#000'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.5)'; e.currentTarget.style.color = '#fff'; }}>✕</button>
+
+                        <div style={{ height: '350px', background: '#111', position: 'relative' }}>
                             {selectedProject.image_url ? (
                                 <img src={selectedProject.image_url} alt={selectedProject.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             ) : (
-                                <div style={{ width: '100%', height: '100%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                                </div>
+                                <div style={{ width: '100%', height: '100%', background: 'linear-gradient(45deg, #111, #222)' }}></div>
                             )}
-
-                            {/* Close Button overlying the image */}
-                            <button
-                                onClick={() => setSelectedProject(null)}
-                                style={{
-                                    position: 'absolute',
-                                    top: '1.5rem',
-                                    right: '1.5rem',
-                                    background: 'rgba(0,0,0,0.4)',
-                                    backdropFilter: 'blur(8px)',
-                                    color: 'white',
-                                    border: '1px solid rgba(255,255,255,0.2)',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '1.2rem',
-                                    transition: 'all 0.2s',
-                                    zIndex: 10
-                                }}
-                                onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.6)'; e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.8)'; }}
-                                onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </button>
                         </div>
 
-                        <div style={{ padding: '2.5rem', overflowY: 'auto' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
-                                <h2 style={{ fontSize: '2.2rem', margin: 0, fontWeight: '600' }}>{selectedProject.title}</h2>
+                        <div style={{ padding: 'clamp(2rem, 5vw, 4rem)' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem', flexWrap: 'wrap', gap: '2rem' }}>
+                                <div>
+                                    <h2 style={{ fontSize: 'clamp(2rem, 5vw, 2.5rem)', margin: '0 0 1rem 0', fontWeight: 800, textTransform: 'uppercase', lineHeight: 1.1 }}>{selectedProject.title}</h2>
+                                    <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+                                        {Array.isArray(selectedProject.tech) && selectedProject.tech.map((t, i) => <span key={i} style={{ fontSize: '0.75rem', padding: '0.4rem 1rem', background: 'rgba(255,255,255,0.05)', color: 'var(--primary-color)', textTransform: 'uppercase', letterSpacing: '0.05em', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>{t}</span>)}
+                                    </div>
+                                </div>
                                 {selectedProject.link && (
-                                    <a
-                                        href={selectedProject.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '0.6rem',
-                                            background: 'var(--primary-color)',
-                                            color: 'white',
-                                            padding: '0.6rem 1.5rem',
-                                            borderRadius: '50px',
-                                            textDecoration: 'none',
-                                            fontWeight: '600',
-                                            fontSize: '0.95rem',
-                                            boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-                                            transition: 'transform 0.2s'
-                                        }}
-                                        className="hover-btn"
-                                    >
-                                        Visit Project Site
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                        <button style={{ padding: '0.8rem 2rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--primary-color)', color: '#000', border: 'none', fontWeight: 600 }}>
+                                            Visit App <span style={{ fontSize: '1.2rem' }}>↗</span>
+                                        </button>
                                     </a>
                                 )}
                             </div>
 
-                            <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
-                                {Array.isArray(selectedProject.tech) && selectedProject.tech.map((t, i) => (
-                                    <span key={i} style={{
-                                        fontSize: '0.85rem',
-                                        padding: '0.4rem 1.2rem',
-                                        background: 'rgba(255,255,255,0.05)',
-                                        border: '1px solid rgba(255,255,255,0.1)',
-                                        color: '#eee',
-                                        borderRadius: '100px',
-                                        letterSpacing: '0.5px'
-                                    }}>{t}</span>
-                                ))}
-                            </div>
-
-                            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <h4 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: '#aaa', fontWeight: '500', margin: '0 0 1rem 0' }}>About Project</h4>
-                                {selectedProject.description.split('\n').map((paragraph, idx) => (
-                                    <p key={idx} style={{ color: '#ddd', lineHeight: '1.8', fontSize: '1.05rem', margin: paragraph.trim() ? '0 0 1rem 0' : '0' }}>
-                                        {paragraph}
-                                    </p>
-                                ))}
+                            <div style={{ color: '#ccc', lineHeight: '1.8', fontSize: '1.1rem', marginTop: '2rem', borderTop: '1px solid #222', paddingTop: '2.5rem' }}>
+                                {selectedProject.description.split('\n').map((paragraph, idx) => <p key={idx} style={{ marginBottom: paragraph.trim() ? '1.5rem' : '0' }}>{paragraph}</p>)}
                             </div>
                         </div>
                     </div>
@@ -667,152 +473,90 @@ export function Contact() {
     };
 
     return (
-        <section id="contact" className="section-padding" style={{ background: 'var(--secondary-color)', textAlign: 'center', position: 'relative' }}>
-            <div className="container">
-                {/* Curriculum Vitae Section */}
-                <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>Curriculum Vitae</h2>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '4rem' }}>
+        <section id="contact" className="section-padding" style={{ position: 'relative', paddingBottom: '4rem' }}>
+            <div className="container" style={{ maxWidth: '1000px' }}>
+                {/* Horizontal Contact Banner */}
+                <div className="contact-flex" style={{
+                    padding: '3rem', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color)',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem'
+                }}>
+                    <div>
+                        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, textTransform: 'uppercase', lineHeight: 1, margin: '0 0 0.5rem 0' }}>
+                            Let's <span style={{ color: 'var(--primary-color)' }}>Talk</span>
+                        </h2>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '1rem', maxWidth: '400px', lineHeight: 1.6, margin: 0 }}>
+                            Ready to start your next project or have a brilliant idea? I'm currently available for new opportunities.
+                        </p>
+                    </div>
+
+                    <a href={`mailto:${email}`} style={{ textDecoration: 'none' }}>
+                        <button style={{
+                            padding: '1rem 2.5rem',
+                            fontSize: '1rem',
+                            background: 'transparent',
+                            border: '1px solid var(--primary-color)',
+                            color: 'var(--primary-color)'
+                        }} onMouseOver={(e) => { e.currentTarget.style.background = 'var(--primary-color)'; e.currentTarget.style.color = '#fff'; }}
+                            onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--primary-color)'; }}>
+                            Drop Me An Email
+                        </button>
+                    </a>
+                </div>
+
+                {/* Minimalist Lower Bar: Socials & CV */}
+                <div className="contact-flex" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', flexWrap: 'wrap', gap: '2rem' }}>
+                    <div className="social-flex" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                        <span style={{ textTransform: 'uppercase', color: 'var(--text-muted)', fontSize: '0.75rem', letterSpacing: '0.1em' }}>Socials //</span>
+                        <a href="https://www.instagram.com/kyovin_/" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.9rem', fontWeight: 600, textDecoration: 'none', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em', transition: 'color 0.3s' }} onMouseOver={e => e.currentTarget.style.color = 'var(--primary-color)'} onMouseOut={e => e.currentTarget.style.color = '#fff'}>Instagram</a>
+                        <a href="https://www.linkedin.com/in/indra-nugraha-putra-783853331/" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.9rem', fontWeight: 600, textDecoration: 'none', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em', transition: 'color 0.3s' }} onMouseOver={e => e.currentTarget.style.color = 'var(--primary-color)'} onMouseOut={e => e.currentTarget.style.color = '#fff'}>LinkedIn</a>
+                        <a href="https://github.com/IndraNP06" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.9rem', fontWeight: 600, textDecoration: 'none', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em', transition: 'color 0.3s' }} onMouseOver={e => e.currentTarget.style.color = 'var(--primary-color)'} onMouseOut={e => e.currentTarget.style.color = '#fff'}>GitHub</a>
+                    </div>
+
                     <button
                         onClick={() => setShowCvModal(true)}
                         style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '1rem',
-                            background: 'var(--primary-color)',
-                            color: 'white',
-                            padding: '1rem 2rem',
-                            borderRadius: '50px',
-                            border: 'none',
-                            cursor: 'pointer',
-                            fontSize: '1.2rem',
-                            fontWeight: '600',
-                            boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
-                            transition: 'all 0.3s ease'
+                            padding: '0', paddingBottom: '2px', border: 'none', borderBottom: '1px solid var(--primary-color)',
+                            background: 'transparent', color: 'var(--primary-color)', fontSize: '0.85rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.1em'
                         }}
-                        className="hover-btn"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        View My CV
+                        View Full CV &rarr;
                     </button>
-                </div>
-
-                <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem' }}>Personal Social Media</h2>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap' }}>
-
-                    {/* Instagram */}
-                    <a href="https://www.instagram.com/kyovin_/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', color: '#aaa', textDecoration: 'none' }}>
-                        <div style={{ width: '70px', height: '70px', background: 'rgba(255,255,255,0.05)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s', fontSize: '1.5rem', color: 'white' }} className="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                        </div>
-                        <span style={{ fontSize: '1rem', fontWeight: 500 }}>Instagram</span>
-                    </a>
-
-                    {/* LinkedIn */}
-                    <a href="https://www.linkedin.com/in/indra-nugraha-putra-783853331/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', color: '#aaa', textDecoration: 'none' }}>
-                        <div style={{ width: '70px', height: '70px', background: 'rgba(255,255,255,0.05)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s', fontSize: '1.5rem', color: 'white' }} className="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </div>
-                        <span style={{ fontSize: '1rem', fontWeight: 500 }}>LinkedIn</span>
-                    </a>
-
-                    {/* Email (Click to Copy) */}
-                    <a href="#" onClick={handleCopyEmail} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', color: '#aaa', textDecoration: 'none' }}>
-                        <div style={{ width: '70px', height: '70px', background: 'rgba(255,255,255,0.05)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s', fontSize: '1.5rem', color: 'white' }} className="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        </div>
-                        <span style={{ fontSize: '1rem', fontWeight: 500 }}>Email</span>
-                    </a>
-
-                    {/* GitHub */}
-                    <a href="https://github.com/IndraNP06" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', color: '#aaa', textDecoration: 'none' }}>
-                        <div style={{ width: '70px', height: '70px', background: 'rgba(255,255,255,0.05)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s', fontSize: '1.5rem', color: 'white' }} className="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </div>
-                        <span style={{ fontSize: '1rem', fontWeight: 500 }}>GitHub</span>
-                    </a>
-
                 </div>
             </div>
 
             {/* Configurable Copy Notification Popup */}
             {showCopyPopup && (
                 <div style={{
-                    position: 'absolute',
-                    top: '20%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    background: 'var(--primary-color)',
-                    color: 'white',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                    zIndex: 10,
-                    animation: 'fadeIn 0.3s ease-out'
+                    position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)',
+                    background: 'var(--primary-color)', color: 'white', padding: '0.5rem 1rem', borderRadius: '0',
+                    zIndex: 10, animation: 'fadeIn 0.3s ease-out', textTransform: 'uppercase', fontWeight: 'bold'
                 }}>
                     Email Copied!
                 </div>
             )}
 
-            {/* CV PDF Modal */}
+            {/* CV PDF Modal Minimalist */}
             {showCvModal && (
                 <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'rgba(0,0,0,0.6)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 2000,
-                    padding: '2rem',
-                    animation: 'fadeIn 0.3s ease-out'
+                    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+                    background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000,
+                    padding: '2rem', animation: 'fadeIn 0.3s ease-out'
                 }} onClick={() => setShowCvModal(false)}>
                     <div
                         className="glass-panel"
                         style={{
-                            maxWidth: '1000px',
-                            width: '100%',
-                            height: '85vh',
-                            position: 'relative',
-                            padding: '0',
-                            border: '1px solid rgba(255,255,255,0.15)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            overflow: 'hidden',
-                            borderRadius: '24px',
-                            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
-                            transform: 'translateY(0)',
-                            animation: 'slideUpFade 0.4s ease-out'
+                            maxWidth: '1000px', width: '100%', height: '85vh', position: 'relative',
+                            padding: '0', display: 'flex', flexDirection: 'column', background: '#050505',
+                            border: '1px solid rgba(255,255,255,0.05)'
                         }}
                         onClick={e => e.stopPropagation()}
                     >
-                        {/* Header Area */}
                         <div style={{
-                            padding: '1.2rem 2rem',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            background: 'rgba(255,255,255,0.03)',
+                            padding: '1.5rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                             borderBottom: '1px solid rgba(255,255,255,0.08)'
                         }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                <div style={{
-                                    background: 'rgba(var(--primary-color-rgb), 0.2)',
-                                    padding: '0.5rem',
-                                    borderRadius: '10px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'var(--primary-color)'
-                                }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                </div>
-                                <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: '500', letterSpacing: '0.5px' }}>My Curriculum Vitae</h3>
-                            </div>
+                            <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Curriculum Vitae</h3>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                 <a
@@ -820,64 +564,27 @@ export function Contact() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
-                                        color: '#aaa',
-                                        textDecoration: 'none',
-                                        fontSize: '0.9rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.4rem',
-                                        padding: '0.5rem 1rem',
-                                        borderRadius: '8px',
-                                        background: 'rgba(255,255,255,0.05)',
-                                        transition: 'all 0.2s ease'
+                                        color: 'var(--primary-color)', textDecoration: 'none', fontSize: '0.85rem', textTransform: 'uppercase', fontWeight: 600
                                     }}
-                                    onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#fff'; }}
-                                    onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#aaa'; }}
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                    Open App
+                                    Extern. Link
                                 </a>
-                                <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.1)' }}></div>
                                 <button
                                     onClick={() => setShowCvModal(false)}
                                     style={{
-                                        background: 'transparent',
-                                        color: '#888',
-                                        border: 'none',
-                                        borderRadius: '50%',
-                                        width: '36px',
-                                        height: '36px',
-                                        cursor: 'pointer',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontSize: '1.2rem',
-                                        transition: 'all 0.2s',
+                                        background: 'transparent', color: '#fff', border: 'none', fontSize: '1.2rem', padding: '0 0.5rem'
                                     }}
-                                    onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'; e.currentTarget.style.color = '#ef4444'; }}
-                                    onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#888'; }}
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    &#10005;
                                 </button>
                             </div>
                         </div>
 
-                        {/* Iframe Container */}
-                        <div style={{ flexGrow: 1, width: '100%', background: '#1a1a1a', position: 'relative' }}>
-                            {/* Loading State visible behind iframe */}
+                        <div style={{ flexGrow: 1, width: '100%', background: '#111', position: 'relative' }}>
                             <div style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                gap: '1rem',
-                                color: '#555',
-                                zIndex: 0
+                                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: '#555', zIndex: 0
                             }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 2s linear infinite', color: 'var(--primary-color)' }}><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
                                 <span style={{ fontSize: '0.9rem', letterSpacing: '1px' }}>LOADING DOCUMENT...</span>
                             </div>
 
@@ -886,7 +593,7 @@ export function Contact() {
                                 width="100%"
                                 height="100%"
                                 allow="autoplay"
-                                style={{ border: 'none', position: 'relative', zIndex: 1, borderRadius: '0 0 24px 24px' }}
+                                style={{ border: 'none', position: 'relative', zIndex: 1 }}
                                 title="Curriculum Vitae"
                             ></iframe>
                         </div>

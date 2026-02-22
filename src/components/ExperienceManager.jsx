@@ -13,7 +13,7 @@ export function ExperienceManager() {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/experiences`);
             const data = await res.json();
-            setExperiences(data);
+            setExperiences(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error(err);
         }

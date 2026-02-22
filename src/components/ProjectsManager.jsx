@@ -17,7 +17,7 @@ export function ProjectsManager() {
             const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects`);
             const data = await res.json();
             // Ensure tech_stack is parsed if it comes as string, or handle if it's already object
-            const parsedData = data.map(p => ({
+            const parsedData = (Array.isArray(data) ? data : []).map(p => ({
                 ...p,
                 tech_stack: typeof p.tech_stack === 'string' ? JSON.parse(p.tech_stack) : p.tech_stack
             }));

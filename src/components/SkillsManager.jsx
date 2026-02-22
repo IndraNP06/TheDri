@@ -13,7 +13,7 @@ export function SkillsManager() {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills`);
             const data = await res.json();
-            setSkills(data);
+            setSkills(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error('Error fetching skills:', err);
         }
