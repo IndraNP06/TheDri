@@ -213,6 +213,18 @@ button:focus-visible {
   transform: translateY(0);
 }
 
+/* Hero Typing Container */
+.typing-container {
+  min-height: 80px;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .typing-container {
+    min-height: 50px;
+  }
+}
+
 /* Navbar */
 .navbar {
   position: fixed;

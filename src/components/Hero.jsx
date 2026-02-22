@@ -3,7 +3,7 @@ import { Typewriter } from 'react-simple-typewriter';
 export function Hero() {
     return (
         <section id="home" className="section-padding" style={{ paddingBottom: '2rem', minHeight: '80vh', display: 'flex', alignItems: 'center', position: 'relative' }}>
-            <div className="container" style={{ position: 'relative', zIndex: 1, paddingTop: '15vh' }}>
+            <div className="container" style={{ position: 'relative', zIndex: 1, paddingTop: '15vh', width: '100%' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '3rem', maxWidth: '1000px' }}>
 
                     <div className="text-reveal-wrapper">
@@ -41,7 +41,7 @@ export function Hero() {
                     </h1>
 
                     <div style={{ marginTop: '2rem' }} className="animate-fade-in delay-200">
-                        <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', color: '#ffffff', fontWeight: 500, margin: '0 0 1.5rem 0', opacity: 0.9 }}>
+                        <h2 className="typing-container" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', color: '#ffffff', fontWeight: 500, margin: '0 0 1.5rem 0', opacity: 0.9 }}>
                             <Typewriter
                                 words={['Building Digital Experiences.', 'Crafting Modern Web3 Apps.', 'Designing User Interfaces.']}
                                 loop={0}

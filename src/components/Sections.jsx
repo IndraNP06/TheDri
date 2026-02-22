@@ -182,6 +182,17 @@ export function PortfolioTabs() {
             });
     }, []);
 
+    useEffect(() => {
+        if (selectedExperience || selectedProject) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [selectedExperience, selectedProject]);
+
     return (
         <section id="portfolio" className="section-padding">
             <div className="container" style={{ maxWidth: '1000px' }}>
@@ -354,7 +365,7 @@ export function PortfolioTabs() {
                     position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '1.5rem', animation: 'fadeIn 0.3s ease-out'
                 }} onClick={() => setSelectedExperience(null)}>
-                    <div className="glass-panel" style={{ position: 'relative', maxWidth: '800px', width: '100%', maxHeight: '90vh', padding: '0', display: 'flex', flexDirection: 'column', overflowY: 'auto', background: '#050505', borderRadius: '12px', border: '1px solid #333' }} onClick={e => e.stopPropagation()}>
+                    <div className="glass-panel" style={{ position: 'relative', maxWidth: '800px', width: '100%', maxHeight: '90vh', padding: '0', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#050505', borderRadius: '12px', border: '1px solid #333' }} onClick={e => e.stopPropagation()}>
 
                         <button onClick={() => setSelectedExperience(null)} style={{
                             position: 'absolute', top: '1.5rem', right: '1.5rem', width: '40px', height: '40px', borderRadius: '50%',
@@ -362,7 +373,7 @@ export function PortfolioTabs() {
                             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 10, transition: 'all 0.3s'
                         }} onMouseOver={e => { e.currentTarget.style.background = 'var(--primary-color)'; e.currentTarget.style.color = '#000'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff'; }}>✕</button>
 
-                        <div style={{ padding: 'clamp(2rem, 5vw, 4rem)', paddingBottom: '3rem' }}>
+                        <div style={{ overflowY: 'auto', padding: 'clamp(2rem, 5vw, 4rem)', paddingBottom: '3rem' }}>
                             <div style={{ marginBottom: '2.5rem', borderBottom: '1px solid #222', paddingBottom: '2.5rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                                     {selectedExperience.image_url && (
@@ -396,7 +407,7 @@ export function PortfolioTabs() {
                     position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '1.5rem', animation: 'fadeIn 0.3s ease-out'
                 }} onClick={() => setSelectedProject(null)}>
-                    <div className="glass-panel" style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: '90vh', display: 'flex', flexDirection: 'column', background: '#050505', overflowY: 'auto', borderRadius: '12px', border: '1px solid #333', padding: 0 }} onClick={e => e.stopPropagation()}>
+                    <div className="glass-panel" style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: '90vh', display: 'flex', flexDirection: 'column', background: '#050505', overflow: 'hidden', borderRadius: '12px', border: '1px solid #333', padding: 0 }} onClick={e => e.stopPropagation()}>
 
                         <button onClick={() => setSelectedProject(null)} style={{
                             position: 'absolute', top: '1.5rem', right: '1.5rem', width: '40px', height: '40px', borderRadius: '50%',
@@ -404,33 +415,35 @@ export function PortfolioTabs() {
                             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 10, transition: 'all 0.3s'
                         }} onMouseOver={e => { e.currentTarget.style.background = 'var(--primary-color)'; e.currentTarget.style.color = '#000'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.5)'; e.currentTarget.style.color = '#fff'; }}>✕</button>
 
-                        <div style={{ height: '350px', background: '#111', position: 'relative' }}>
-                            {selectedProject.image_url ? (
-                                <img src={selectedProject.image_url} alt={selectedProject.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            ) : (
-                                <div style={{ width: '100%', height: '100%', background: 'linear-gradient(45deg, #111, #222)' }}></div>
-                            )}
-                        </div>
-
-                        <div style={{ padding: 'clamp(2rem, 5vw, 4rem)' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem', flexWrap: 'wrap', gap: '2rem' }}>
-                                <div>
-                                    <h2 style={{ fontSize: 'clamp(2rem, 5vw, 2.5rem)', margin: '0 0 1rem 0', fontWeight: 800, textTransform: 'uppercase', lineHeight: 1.1 }}>{selectedProject.title}</h2>
-                                    <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
-                                        {Array.isArray(selectedProject.tech) && selectedProject.tech.map((t, i) => <span key={i} style={{ fontSize: '0.75rem', padding: '0.4rem 1rem', background: 'rgba(255,255,255,0.05)', color: 'var(--primary-color)', textTransform: 'uppercase', letterSpacing: '0.05em', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>{t}</span>)}
-                                    </div>
-                                </div>
-                                {selectedProject.link && (
-                                    <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                                        <button style={{ padding: '0.8rem 2rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--primary-color)', color: '#000', border: 'none', fontWeight: 600 }}>
-                                            Visit App <span style={{ fontSize: '1.2rem' }}>↗</span>
-                                        </button>
-                                    </a>
+                        <div style={{ overflowY: 'auto' }}>
+                            <div style={{ height: '350px', background: '#111', position: 'relative' }}>
+                                {selectedProject.image_url ? (
+                                    <img src={selectedProject.image_url} alt={selectedProject.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(45deg, #111, #222)' }}></div>
                                 )}
                             </div>
 
-                            <div style={{ color: '#ccc', lineHeight: '1.8', fontSize: '1.1rem', marginTop: '2rem', borderTop: '1px solid #222', paddingTop: '2.5rem' }}>
-                                {selectedProject.description.split('\n').map((paragraph, idx) => <p key={idx} style={{ marginBottom: paragraph.trim() ? '1.5rem' : '0' }}>{paragraph}</p>)}
+                            <div style={{ padding: 'clamp(2rem, 5vw, 4rem)' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem', flexWrap: 'wrap', gap: '2rem' }}>
+                                    <div>
+                                        <h2 style={{ fontSize: 'clamp(2rem, 5vw, 2.5rem)', margin: '0 0 1rem 0', fontWeight: 800, textTransform: 'uppercase', lineHeight: 1.1 }}>{selectedProject.title}</h2>
+                                        <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+                                            {Array.isArray(selectedProject.tech) && selectedProject.tech.map((t, i) => <span key={i} style={{ fontSize: '0.75rem', padding: '0.4rem 1rem', background: 'rgba(255,255,255,0.05)', color: 'var(--primary-color)', textTransform: 'uppercase', letterSpacing: '0.05em', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>{t}</span>)}
+                                        </div>
+                                    </div>
+                                    {selectedProject.link && (
+                                        <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                            <button style={{ padding: '0.8rem 2rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--primary-color)', color: '#000', border: 'none', fontWeight: 600 }}>
+                                                Visit App <span style={{ fontSize: '1.2rem' }}>↗</span>
+                                            </button>
+                                        </a>
+                                    )}
+                                </div>
+
+                                <div style={{ color: '#ccc', lineHeight: '1.8', fontSize: '1.1rem', marginTop: '2rem', borderTop: '1px solid #222', paddingTop: '2.5rem' }}>
+                                    {selectedProject.description.split('\n').map((paragraph, idx) => <p key={idx} style={{ marginBottom: paragraph.trim() ? '1.5rem' : '0' }}>{paragraph}</p>)}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -459,6 +472,17 @@ export function Contact() {
             })
             .catch(err => console.error('Error fetching CV:', err));
     }, []);
+
+    useEffect(() => {
+        if (showCvModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [showCvModal]);
 
     const defaultCvUrl = "https://drive.google.com/file/d/1H5Aytrrorw81qJhAmU8XrBPohKImy2OM/view?usp=sharing";
     const activeCvUrl = cvData?.file_url || defaultCvUrl;
