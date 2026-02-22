@@ -16,7 +16,7 @@ export function Hero() {
                             }}>
                                 <span style={{ width: '40px', height: '2px', background: 'var(--primary-color)' }}></span>
                                 <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--primary-color)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                                    Full Stack & Web3 Developer
+                                    Welcome Everyone
                                 </span>
                             </div>
                         </div>
@@ -54,11 +54,11 @@ export function Hero() {
                         </h2>
 
                         <p style={{ fontSize: '1.15rem', color: 'var(--text-muted)', maxWidth: '500px', lineHeight: 1.8, fontWeight: 400, marginBottom: '3rem' }}>
-                            I transform complex ideas into robust, high-performance web applications. Specializing in modern frontend architecture and intuitive minimalist design.
+                            I blend creative design with clean code to build engaging digital experiences. Specializing in frontend development, intuitive UI/UX, and impactful graphic design.
                         </p>
 
                         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-                            <a href="#projects">
+                            <a href="#portfolio">
                                 <button style={{ background: '#fff', color: '#000', borderColor: '#fff' }}>
                                     View Work
                                 </button>

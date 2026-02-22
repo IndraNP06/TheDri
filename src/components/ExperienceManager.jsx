@@ -2,8 +2,14 @@ import { useState, useEffect } from 'react';
 
 export function ExperienceManager() {
     const [experiences, setExperiences] = useState([]);
-    const [form, setForm] = useState({ company: '', role: '', period: '', description: '', image_url: '' });
+
+    // Split period into start and end parts
+    const [form, setForm] = useState({ company: '', role: '', startMonth: 'Jan', startYear: new Date().getFullYear().toString(), endMonth: 'Present', endYear: '', description: '', image_url: '' });
     const [editingId, setEditingId] = useState(null);
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Present'];
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 30 }, (_, i) => (currentYear - i).toString());
 
     useEffect(() => {
         fetchExperiences();
@@ -25,17 +31,30 @@ export function ExperienceManager() {
         const url = editingId ? `${import.meta.env.VITE_API_URL || ''}/api/experiences/${editingId}` : `${import.meta.env.VITE_API_URL || ''}/api/experiences`;
 
         try {
+            // Reconstruct the period string
+            const startStr = `${form.startMonth} ${form.startYear}`.trim();
+            const endStr = form.endMonth === 'Present' ? 'Present' : `${form.endMonth} ${form.endYear}`.trim();
+            const periodStr = `${startStr} - ${endStr}`;
+
+            const payload = {
+                company: form.company,
+                role: form.role,
+                period: periodStr,
+                description: form.description,
+                image_url: form.image_url
+            };
+
             const res = await fetch(url, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify(form)
+                body: JSON.stringify(payload)
             });
 
             if (res.ok) {
-                setForm({ company: '', role: '', period: '', description: '', image_url: '' });
+                setForm({ company: '', role: '', startMonth: 'Jan', startYear: currentYear.toString(), endMonth: 'Present', endYear: '', description: '', image_url: '' });
                 setEditingId(null);
                 fetchExperiences();
             } else {
@@ -53,7 +72,24 @@ export function ExperienceManager() {
     };
 
     const handleEdit = (exp) => {
-        setForm({ ...exp, image_url: exp.image_url || '' });
+        // Parse the period string back into components (e.g. "Jan 2023 - Present" or "Jan 2021 - Dec 2022")
+        let sM = 'Jan', sY = currentYear.toString(), eM = 'Present', eY = '';
+        if (exp.period) {
+            const parts = exp.period.split(' - ');
+            if (parts.length === 2) {
+                const startParts = parts[0].trim().split(' ');
+                if (startParts.length === 2) { sM = startParts[0]; sY = startParts[1]; }
+
+                if (parts[1].trim() === 'Present') {
+                    eM = 'Present';
+                } else {
+                    const endParts = parts[1].trim().split(' ');
+                    if (endParts.length === 2) { eM = endParts[0]; eY = endParts[1]; }
+                }
+            }
+        }
+
+        setForm({ ...exp, startMonth: sM, startYear: sY, endMonth: eM, endYear: eY, image_url: exp.image_url || '' });
         setEditingId(exp.id);
     };
 
@@ -101,14 +137,45 @@ export function ExperienceManager() {
                     required
                     style={{ padding: '0.8rem', background: '#222', border: '1px solid #444', color: 'white', borderRadius: '4px' }}
                 />
-                <input
-                    type="text"
-                    placeholder="Period (e.g. Jan 2023 - Present)"
-                    value={form.period}
-                    onChange={e => setForm({ ...form, period: e.target.value })}
-                    required
-                    style={{ padding: '0.8rem', background: '#222', border: '1px solid #444', color: 'white', borderRadius: '4px' }}
-                />
+                <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.9rem', marginBottom: '-0.5rem' }}>Start Period</label>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <select
+                            value={form.startMonth}
+                            onChange={e => setForm({ ...form, startMonth: e.target.value })}
+                            style={{ padding: '0.8rem', background: '#222', border: '1px solid #444', color: 'white', borderRadius: '4px', flex: 1 }}
+                        >
+                            {months.filter(m => m !== 'Present').map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                        <select
+                            value={form.startYear}
+                            onChange={e => setForm({ ...form, startYear: e.target.value })}
+                            style={{ padding: '0.8rem', background: '#222', border: '1px solid #444', color: 'white', borderRadius: '4px', flex: 1 }}
+                        >
+                            {years.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                    </div>
+
+                    <label style={{ display: 'block', color: '#aaa', fontSize: '0.9rem', marginBottom: '-0.5rem', marginTop: '0.5rem' }}>End Period</label>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <select
+                            value={form.endMonth}
+                            onChange={e => setForm({ ...form, endMonth: e.target.value })}
+                            style={{ padding: '0.8rem', background: '#222', border: '1px solid #444', color: 'white', borderRadius: '4px', flex: 1 }}
+                        >
+                            {months.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                        {form.endMonth !== 'Present' && (
+                            <select
+                                value={form.endYear || currentYear.toString()}
+                                onChange={e => setForm({ ...form, endYear: e.target.value })}
+                                style={{ padding: '0.8rem', background: '#222', border: '1px solid #444', color: 'white', borderRadius: '4px', flex: 1 }}
+                            >
+                                {years.map(y => <option key={y} value={y}>{y}</option>)}
+                            </select>
+                        )}
+                    </div>
+                </div>
                 <textarea
                     placeholder="Description"
                     value={form.description}
@@ -129,7 +196,7 @@ export function ExperienceManager() {
                         {editingId ? 'Update Experience' : 'Add Experience'}
                     </button>
                     {editingId && (
-                        <button type="button" onClick={() => { setEditingId(null); setForm({ company: '', role: '', period: '', description: '', image_url: '' }); }} style={{ padding: '0.8rem 1.5rem', background: '#666', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                        <button type="button" onClick={() => { setEditingId(null); setForm({ company: '', role: '', startMonth: 'Jan', startYear: currentYear.toString(), endMonth: 'Present', endYear: '', description: '', image_url: '' }); }} style={{ padding: '0.8rem 1.5rem', background: '#666', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
                             Cancel
                         </button>
                     )}

@@ -4,18 +4,23 @@ import { RevealOnScroll } from './RevealOnScroll';
 
 export function AboutAndSkills() {
     const [skills, setSkills] = useState([]);
+    const [projectCount, setProjectCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills`)
-            .then(res => res.ok ? res.json() : [])
-            .then(data => {
-                setSkills(Array.isArray(data) ? data : []);
+        Promise.all([
+            fetch(`${import.meta.env.VITE_API_URL || ''}/api/skills`).then(res => res.ok ? res.json() : []),
+            fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects`).then(res => res.ok ? res.json() : [])
+        ])
+            .then(([skillsData, projectsData]) => {
+                setSkills(Array.isArray(skillsData) ? skillsData : []);
+                setProjectCount(Array.isArray(projectsData) ? projectsData.length : 0);
                 setLoading(false);
             })
             .catch(err => {
-                console.error('Error fetching skills:', err);
+                console.error('Error fetching data:', err);
                 setSkills([]);
+                setProjectCount(0);
                 setLoading(false);
             });
     }, []);
@@ -43,7 +48,7 @@ export function AboutAndSkills() {
                                 The <span style={{ color: 'var(--primary-color)' }}>Mind</span><br /> Behind The Code
                             </h2>
                             <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.6', maxWidth: '600px' }}>
-                                A passionate developer bridging the gap between elegant aesthetics and highly-optimized functionality. Building immersive web experiences with a focus on modern minimalist design.
+                                A detail-oriented developer and designer with a deep passion for visual hierarchy, precise layouts, and spatial harmony. I craft pixel-perfect web experiences where minimalist aesthetics meet clean, functional code.
                             </p>
                         </div>
 
@@ -82,12 +87,12 @@ export function AboutAndSkills() {
                             border: 'none'
                         }}>
                             <div>
-                                <h3 style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, margin: 0 }}>3+</h3>
+                                <h3 style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, margin: 0 }}>0.8</h3>
                                 <p style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, opacity: 0.9 }}>Years Exp.</p>
                             </div>
                             <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,0.3)' }}></div>
                             <div>
-                                <h3 style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, margin: 0 }}>20+</h3>
+                                <h3 style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, margin: 0 }}>{projectCount > 0 ? projectCount : '0'}</h3>
                                 <p style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0, opacity: 0.9 }}>Projects</p>
                             </div>
                         </div>
@@ -102,7 +107,7 @@ export function AboutAndSkills() {
                             justifyContent: 'center',
                             overflow: 'hidden'
                         }}>
-                            <h3 style={{ fontSize: '1.2rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '2rem' }}>Core Arsenal</h3>
+                            <h3 style={{ fontSize: '1.2rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '2rem' }}>Skills</h3>
 
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
                                 {loading ? (
@@ -305,9 +310,10 @@ export function PortfolioTabs() {
                                 projects.map((project, index) => (
                                     <div key={project.id} className="glass-panel tab-grid-proj" style={{
                                         position: 'relative', overflow: 'hidden', padding: 0, border: '1px solid var(--border-color)',
-                                        display: 'grid', gridTemplateColumns: 'minmax(250px, 1fr) 2fr'
+                                        display: 'grid', gridTemplateColumns: 'minmax(250px, 1fr) 2fr',
+                                        alignItems: 'stretch'
                                     }}>
-                                        <div style={{ background: '#111', minHeight: '250px', position: 'relative', overflow: 'hidden' }}>
+                                        <div style={{ background: '#111', aspectRatio: '1 / 1', position: 'relative', overflow: 'hidden', minHeight: '100%' }}>
                                             {project.image_url ? (
                                                 <img src={project.image_url} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)', transition: 'all 0.6s' }}
                                                     onMouseOver={e => { e.currentTarget.style.filter = 'grayscale(0%)'; e.currentTarget.style.transform = 'scale(1.05)' }}
